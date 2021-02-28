@@ -1,38 +1,33 @@
---CREATE USER PERMISSION
-INSERT INTO permission (id) VALUES ('ADMIN');
-INSERT INTO permission (id) VALUES ('USER');
+-- User user/pass
+INSERT INTO users (username, password) VALUES ('user', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a');
+-- User user2/hello
+INSERT INTO users (username, password) VALUES ('user2', '$2a$10$DyVLiDNNrO.0/YBIHwn4YOENmr1DD49pCy5Ac1fA6iPVEg2XtFmTG');
+-- User user3/hello
+INSERT INTO users (username, password) VALUES ('user3', '$2a$10$DyVLiDNNrO.0/YBIHwn4YOENmr1DD49pCy5Ac1fA6iPVEg2XtFmTG');
 
---Create GROUP
-INSERT INTO `group` (description) VALUES ('my awesome group');
+INSERT INTO authorities (username, authority) VALUES ('user', 'ADMIN');
+INSERT INTO authorities (username, authority) VALUES ('user2', 'USER');
 
---CREATE ADMIN USER
-INSERT INTO user (id) VALUES ('marco');
-INSERT INTO `group` (description) VALUES ('my awesome group');
-INSERT INTO user_group (user_id, group_id) VALUES ('marco', LAST_INSERT_ID());
-INSERT INTO user_permission (user_id, permission_id) VALUES ('marco', 'ADMIN');
+INSERT INTO authorities (username, authority) VALUES ('user3', 'ADMIN');
 
-INSERT INTO user (id) VALUES ('penny');
-INSERT INTO user_group (user_id, group_id) VALUES ('penny', 1);
-INSERT INTO user_permission (user_id, permission_id) VALUES ('penny', 'USER');
+INSERT INTO groups (group_name) VALUES ('family budget');
+INSERT INTO groups (group_name) VALUES ('family budget 2');
 
-----CREATE USER BY ADMIN
-INSERT INTO user (id) VALUES ('camilo');
-INSERT INTO user_group (user_id, group_id) VALUES ('camilo', 1);
-INSERT INTO user_permission (user_id, permission_id) VALUES ('camilo', 'USER');
+INSERT INTO group_members (username, group_id) VALUES ('user', 1);
+INSERT INTO group_members (username, group_id) VALUES ('user2', 1);
+
+INSERT INTO group_members (username, group_id) VALUES ('user3', 2);
 
 --CREATE ACCOUNTS
-INSERT INTO account (name, type, user_id) VALUES ('My Bank Checking A', 'checking', 'marco');
-INSERT INTO account (name, type, user_id) VALUES ('My Bank Savings A', 'savings', 'marco');
-INSERT INTO account (name, type, user_id) VALUES ('My Brokerage A', 'investment', 'marco');
+INSERT INTO accounts (name, type, group_id) VALUES ('My Bank Checking A', 'checking', 1);
+INSERT INTO accounts (name, type, group_id) VALUES ('My Bank Savings A', 'savings', 1);
+INSERT INTO accounts (name, type, group_id) VALUES ('My Brokerage A', 'investment', 1);
 
-INSERT INTO account (name, type, user_id) VALUES ('My Bank Checking B', 'checking', 'penny');
-INSERT INTO account (name, type, user_id) VALUES ('My Bank Savings B', 'savings', 'penny');
-INSERT INTO account (name, type, user_id) VALUES ('My Brokerage B', 'investment', 'penny');
+INSERT INTO accounts (name, type, group_id) VALUES ('My Bank Checking B', 'checking', 1);
+INSERT INTO accounts (name, type, group_id) VALUES ('My Bank Savings B', 'savings', 1);
+INSERT INTO accounts (name, type, group_id) VALUES ('My Brokerage B', 'investment', 1);
 
-INSERT INTO account (name, type, user_id) VALUES ('My Bank Checking C', 'checking', 'camilo');
-INSERT INTO account (name, type, user_id) VALUES ('My Bank Savings C', 'savings', 'camilo');
-INSERT INTO account (name, type, user_id) VALUES ('My Brokerage C', 'investment', 'camilo');
-
---CREATE ACTIVITIES
---INSERT INTO activity (description, category, amount, date, account_id, user_id) VALUES ('test', 'home', 0, '2021-01-31', 1, 'marco');
+INSERT INTO accounts (name, type, group_id) VALUES ('My Bank Checking C', 'checking', 2);
+INSERT INTO accounts (name, type, group_id) VALUES ('My Bank Savings C', 'savings', 2);
+INSERT INTO accounts (name, type, group_id) VALUES ('My Brokerage C', 'investment', 2);
 
