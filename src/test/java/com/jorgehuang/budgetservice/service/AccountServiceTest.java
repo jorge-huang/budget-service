@@ -52,4 +52,10 @@ public class AccountServiceTest {
         when(accountRepository.findById(anyInt())).thenReturn(account);
         assertEquals(1, service.findById(1).getId());
     }
+
+    @Test
+    public void shouldDeleteAccountById() {
+        when(accountRepository.delete(anyInt())).thenReturn(1);
+        assertEquals(1, service.delete(1));
+    }
 }

@@ -13,8 +13,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AccountController.class)
@@ -36,6 +35,32 @@ public class AccountControllerTest {
     public void getAccountByIdShouldReturnAccount() throws Exception {
         when(accountService.findById(anyInt())).thenReturn(new Account());
         mockMvc.perform(get("/accounts/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteAccountByIdShouldReturn200() throws Exception {
+        when(accountService.delete(anyInt())).thenReturn(1);
+        mockMvc.perform(delete("/accounts/1")
+                .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteAccountByIdShouldReturn500() throws Exception {
+        when(accountService.delete(anyInt())).thenReturn(0);
+        mockMvc.perform(delete("/accounts/100")
+                .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteAccountByIdShouldReturn403WhenCSRFIsNull() throws Exception {
+        when(accountService.delete(anyInt())).thenReturn(1);
+        mockMvc.perform(delete("/accounts/1"))
+                .andExpect(status().isForbidden());
     }
 
     @Test

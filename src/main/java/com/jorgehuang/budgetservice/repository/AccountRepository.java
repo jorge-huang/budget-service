@@ -38,4 +38,8 @@ public class AccountRepository {
             return null;
         }
     }
+
+    public int delete(int id) {
+        return jdbcTemplate.update("DELETE FROM accounts WHERE id = ? AND group_id = ?", id, getCurrentUserGroupId());
+    }
 }

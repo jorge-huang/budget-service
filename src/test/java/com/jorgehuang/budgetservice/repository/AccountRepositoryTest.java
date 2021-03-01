@@ -47,4 +47,16 @@ public class AccountRepositoryTest {
     public void findByIdShouldReturnNullWhenAccountIdDoesNotExist() {
         assertEquals(null, accountRepository.findById(100));
     }
+
+    @Test
+    @WithMockUser()
+    public void deleteShouldDeleteAccountByIdWhenIdExists() {
+        assertEquals(1, accountRepository.delete(1));
+    }
+
+    @Test
+    @WithMockUser()
+    public void deleteShouldReturnZeroWhenIdDoesNotExist() {
+        assertEquals(0, accountRepository.delete(1000));
+    }
 }

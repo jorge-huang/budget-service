@@ -32,6 +32,15 @@ public class AccountController {
         return account;
     }
 
+    @DeleteMapping("/accounts/{id}")
+    public ResponseEntity deleteAccountById(@PathVariable Integer id) {
+        if (accountService.delete(id) > 0) {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @PostMapping("/accounts")
     public ResponseEntity createAccount(@RequestParam String name, @RequestParam String type) {
         Account account = new Account();

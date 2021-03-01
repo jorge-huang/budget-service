@@ -23,4 +23,8 @@ public class AccountService {
     public Account findById(int id) {
         return accountRepository.findById(id);
     }
+
+    public int delete(int id) {
+        return accountRepository.delete(id);
+    }
 }
