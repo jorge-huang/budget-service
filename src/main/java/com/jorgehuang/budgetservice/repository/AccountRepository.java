@@ -30,4 +30,12 @@ public class AccountRepository {
                 account.getType(),
                 getCurrentUserGroupId());
     }
+
+    public Account findById(int id) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM accounts WHERE id = ? AND group_id = ?", new AccountMapper(), id, getCurrentUserGroupId());
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

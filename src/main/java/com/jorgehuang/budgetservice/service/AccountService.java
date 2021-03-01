@@ -19,4 +19,8 @@ public class AccountService {
     public int create(Account account) {
         return accountRepository.create(account);
     }
+
+    public Account findById(int id) {
+        return accountRepository.findById(id);
+    }
 }

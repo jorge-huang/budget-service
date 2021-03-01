@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +19,17 @@ public class AccountController {
     @ResponseBody
     public List<Account> getAccounts() {
         return accountService.getAll();
+    }
+
+    @GetMapping("/accounts/{id}")
+    @ResponseBody
+    public Object getAccountById(@PathVariable Integer id) {
+        Account account = accountService.findById(id);
+        if (account == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        return account;
     }
 
     @PostMapping("/accounts")

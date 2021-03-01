@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest
-public class AccountResposityTest {
+public class AccountRepositoryTest {
     @Autowired
     AccountRepository accountRepository;
 
     @Test
     @WithMockUser("user3")
-    public void shouldReturnAllAccountsGivenUserGroup() {
+    public void getAllAccountsShouldReturnAllAccountsGivenUserGroup() {
         assertEquals(3, accountRepository.getAllAccounts().size());
         assertEquals("My Bank Checking C", accountRepository.getAllAccounts().get(0).getName());
         assertEquals("My Bank Savings C", accountRepository.getAllAccounts().get(1).getName());
@@ -25,10 +25,26 @@ public class AccountResposityTest {
 
     @Test
     @WithMockUser()
-    public void shouldCreateAccount() {
+    public void createShouldCreateAccount() {
         Account account = new Account();
         account.setName("test");
         account.setType("investment");
         assertEquals(1, accountRepository.create(account));
+    }
+
+    @Test
+    @WithMockUser()
+    public void findByIdShouldReturnAccountById() {
+        Account account = accountRepository.findById(1);
+        assertEquals(1, account.getId());
+        assertEquals("My Bank Checking A", account.getName());
+        assertEquals("checking", account.getType());
+        assertEquals(true, account.getEnabled());
+    }
+
+    @Test
+    @WithMockUser()
+    public void findByIdShouldReturnNullWhenAccountIdDoesNotExist() {
+        assertEquals(null, accountRepository.findById(100));
     }
 }
