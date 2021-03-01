@@ -15,9 +15,19 @@ public class AccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Account> getAllAccounts() throws DataAccessException {
+    private int getCurrentUserGroupId() throws DataAccessException {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Integer groupId = jdbcTemplate.queryForObject("SELECT group_id FROM group_members WHERE username = ?", Integer.class, username);
-        return jdbcTemplate.query("SELECT * FROM accounts WHERE group_id = ?", new AccountMapper(), groupId);
+        return jdbcTemplate.queryForObject("SELECT group_id FROM group_members WHERE username = ?", Integer.class, username);
+    }
+
+    public List<Account> getAllAccounts() throws DataAccessException {
+        return jdbcTemplate.query("SELECT * FROM accounts WHERE group_id = ?", new AccountMapper(), getCurrentUserGroupId());
+    }
+
+    public int create(Account account) throws DataAccessException {
+        return jdbcTemplate.update("INSERT INTO accounts (name, type, group_id) VALUES (?, ?, ?)",
+                account.getName(),
+                account.getType(),
+                getCurrentUserGroupId());
     }
 }

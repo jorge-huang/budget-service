@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {AccountService.class})
@@ -35,5 +36,11 @@ public class AccountServiceTest {
         assertEquals(2, service.getAll().size());
         assertEquals(1, service.getAll().get(0).getId());
         assertEquals(2, service.getAll().get(1).getId());
+    }
+
+    @Test
+    public void shouldCreateAccount() {
+        when(accountRepository.create(any())).thenReturn(1);
+        assertEquals(1, service.create(any(Account.class)));
     }
 }

@@ -1,6 +1,10 @@
 package com.jorgehuang.budgetservice.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.jorgehuang.budgetservice.service.AccountService;
@@ -21,8 +25,48 @@ public class AccountControllerTest {
     private AccountService accountService;
 
     @Test
-    @WithMockUser("testUser")
-    public void shouldReturnListOfAccounts() throws Exception {
-        this.mockMvc.perform(get("/accounts")).andExpect(status().isOk());
+    @WithMockUser()
+    public void getAccountsShouldReturnListOfAccounts() throws Exception {
+        mockMvc.perform(get("/accounts")).andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser()
+    public void postAccountsShouldReturnStatusCode201() throws Exception {
+        when(accountService.create(any())).thenReturn(1);
+        mockMvc.perform(post("/accounts")
+                .param("name", "My bank account")
+                .param("type", "investment")
+                .with(csrf()))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    @WithMockUser()
+    public void postAccountsShouldReturnStatusCode500() throws Exception {
+        when(accountService.create(any())).thenReturn(0);
+        mockMvc.perform(post("/accounts")
+                .param("name", "My bank account")
+                .param("type", "investment")
+                .with(csrf()))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithMockUser()
+    public void postAccountsShouldReturnStatusCode400WhenNameIsNull() throws Exception {
+        mockMvc.perform(post("/accounts")
+                .param("type", "investment")
+                .with(csrf()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @WithMockUser()
+    public void postAccountsShouldReturnStatusCode400WhenTypeIsNull() throws Exception {
+        mockMvc.perform(post("/accounts")
+                .param("name", "My bank account")
+                .with(csrf()))
+                .andExpect(status().isBadRequest());
     }
 }

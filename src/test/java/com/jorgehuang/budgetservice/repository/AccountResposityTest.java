@@ -1,5 +1,6 @@
 package com.jorgehuang.budgetservice.repository;
 
+import com.jorgehuang.budgetservice.domain.Account;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,5 +21,14 @@ public class AccountResposityTest {
         assertEquals("My Bank Checking C", accountRepository.getAllAccounts().get(0).getName());
         assertEquals("My Bank Savings C", accountRepository.getAllAccounts().get(1).getName());
         assertEquals("My Brokerage C", accountRepository.getAllAccounts().get(2).getName());
+    }
+
+    @Test
+    @WithMockUser()
+    public void shouldCreateAccount() {
+        Account account = new Account();
+        account.setName("test");
+        account.setType("investment");
+        assertEquals(1, accountRepository.create(account));
     }
 }

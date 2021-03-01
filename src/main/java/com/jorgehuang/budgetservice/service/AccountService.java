@@ -16,4 +16,7 @@ public class AccountService {
         return accountRepository.getAllAccounts();
     }
 
+    public int create(Account account) {
+        return accountRepository.create(account);
+    }
 }
