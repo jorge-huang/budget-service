@@ -27,4 +27,12 @@ public class AccountService {
     public int delete(int id) {
         return accountRepository.delete(id);
     }
+
+    public int update(Account account) {
+        if (account.getId() == null) {
+            return 0;
+        }
+
+        return accountRepository.update(account);
+    }
 }

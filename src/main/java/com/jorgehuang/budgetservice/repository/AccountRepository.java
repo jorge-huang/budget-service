@@ -39,7 +39,16 @@ public class AccountRepository {
         }
     }
 
-    public int delete(int id) {
+    public int delete(int id) throws DataAccessException {
         return jdbcTemplate.update("DELETE FROM accounts WHERE id = ? AND group_id = ?", id, getCurrentUserGroupId());
+    }
+
+    public int update(Account account) throws DataAccessException {
+        return jdbcTemplate.update("UPDATE accounts SET name = ?, type = ?, enabled = ? WHERE id = ? AND group_id = ?",
+                account.getName(),
+                account.getType(),
+                account.getEnabled(),
+                account.getId(),
+                getCurrentUserGroupId());
     }
 }

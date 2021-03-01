@@ -65,6 +65,18 @@ public class AccountControllerTest {
 
     @Test
     @WithMockUser()
+    public void updateAccountShouldReturn200() throws Exception {
+        when(accountService.update(any())).thenReturn(1);
+        mockMvc.perform(put("/accounts/1")
+                .param("name", "bank")
+                .param("type", "checking")
+                .param("enabled", "false")
+                .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser()
     public void getAccountByIdShouldReturnAccountWhenNull() throws Exception {
         when(accountService.findById(anyInt())).thenReturn(null);
         mockMvc.perform(get("/accounts/1"))

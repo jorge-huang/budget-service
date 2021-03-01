@@ -58,4 +58,19 @@ public class AccountServiceTest {
         when(accountRepository.delete(anyInt())).thenReturn(1);
         assertEquals(1, service.delete(1));
     }
+
+    @Test
+    public void shouldUpdateAccountById() {
+        Account account = new Account();
+        account.setId(1);
+        when(accountRepository.update(any())).thenReturn(1);
+        assertEquals(1, service.update(account));
+    }
+
+    @Test
+    public void shouldNotUpdateAccountWhenIdIsNull() {
+        Account account = new Account();
+        when(accountRepository.update(any())).thenReturn(1);
+        assertEquals(0, service.update(account));
+    }
 }

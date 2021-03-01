@@ -41,6 +41,20 @@ public class AccountController {
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PutMapping("/accounts/{id}")
+    public ResponseEntity updateAccountById(
+            @PathVariable Integer id,
+            @RequestParam String name,
+            @RequestParam String type,
+            @RequestParam Boolean enabled) {
+        Account account = new Account(id, name, type, enabled);
+        if (accountService.update(account) > 0) {
+            return new ResponseEntity(HttpStatus.OK);
+        }
+
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @PostMapping("/accounts")
     public ResponseEntity createAccount(@RequestParam String name, @RequestParam String type) {
         Account account = new Account();

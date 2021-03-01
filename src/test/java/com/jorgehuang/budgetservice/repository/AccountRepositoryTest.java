@@ -51,12 +51,19 @@ public class AccountRepositoryTest {
     @Test
     @WithMockUser()
     public void deleteShouldDeleteAccountByIdWhenIdExists() {
-        assertEquals(1, accountRepository.delete(1));
+        assertEquals(1, accountRepository.delete(10));
     }
 
     @Test
     @WithMockUser()
     public void deleteShouldReturnZeroWhenIdDoesNotExist() {
         assertEquals(0, accountRepository.delete(1000));
+    }
+
+    @Test
+    @WithMockUser()
+    public void updateShouldUpdateAccount() {
+        Account account = new Account(1, "My Account", "savings", true);
+        assertEquals(1, accountRepository.update(account));
     }
 }
