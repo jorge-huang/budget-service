@@ -27,5 +27,6 @@ public class DevWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().ignoringAntMatchers("/h2-console/**");
         http.headers().frameOptions().sameOrigin();
+        http.csrf().disable(); // TODO: find out how to implement CSRF
     }
 }
