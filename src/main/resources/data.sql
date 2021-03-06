@@ -1,9 +1,9 @@
 -- User user/pass
 INSERT INTO users (username, password) VALUES ('user', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a');
--- User user2/hello
-INSERT INTO users (username, password) VALUES ('user2', '$2a$10$DyVLiDNNrO.0/YBIHwn4YOENmr1DD49pCy5Ac1fA6iPVEg2XtFmTG');
--- User user3/hello
-INSERT INTO users (username, password) VALUES ('user3', '$2a$10$DyVLiDNNrO.0/YBIHwn4YOENmr1DD49pCy5Ac1fA6iPVEg2XtFmTG');
+-- User user2/pass
+INSERT INTO users (username, password) VALUES ('user2', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a');
+-- User user3/pass
+INSERT INTO users (username, password) VALUES ('user3', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.AQubh4a');
 
 INSERT INTO authorities (username, authority) VALUES ('user', 'ADMIN');
 INSERT INTO authorities (username, authority) VALUES ('user2', 'USER');
