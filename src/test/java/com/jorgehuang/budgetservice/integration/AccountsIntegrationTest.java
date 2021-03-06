@@ -22,7 +22,7 @@ public class AccountsIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "user", password = "pass")
+    @WithMockUser("user")
     public void getAccountsWithUser() throws Exception {
         mockMvc.perform(get("/accounts"))
                 .andExpect(status().isOk())
@@ -35,7 +35,7 @@ public class AccountsIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "user2", password = "pass")
+    @WithMockUser("user2")
     public void getAccountsWithUser2() throws Exception {
         mockMvc.perform(get("/accounts"))
                 .andExpect(status().isOk())
@@ -48,7 +48,7 @@ public class AccountsIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "user3", password = "pass")
+    @WithMockUser("user3")
     public void getAccountsWithUser3() throws Exception {
         mockMvc.perform(get("/accounts"))
                 .andExpect(status().isOk())
@@ -58,7 +58,7 @@ public class AccountsIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "user", password = "pass")
+    @WithMockUser("user")
     public void getAccountByIdWithUser() throws Exception {
         mockMvc.perform(get("/accounts/1"))
                 .andExpect(status().isOk())
@@ -66,7 +66,7 @@ public class AccountsIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "user2", password = "pass")
+    @WithMockUser("user2")
     public void getAccountByIdWithUser2() throws Exception {
         mockMvc.perform(get("/accounts/2"))
                 .andExpect(status().isOk())
@@ -75,7 +75,7 @@ public class AccountsIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "user3", password = "pass")
+    @WithMockUser("user3")
     public void getAccountByIdWithUser3() throws Exception {
         mockMvc.perform(get("/accounts/7"))
                 .andExpect(status().isOk())
@@ -83,7 +83,7 @@ public class AccountsIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "user", password = "pass")
+    @WithMockUser("user")
     public void createUpdateAndDeleteAccountById() throws Exception {
         mockMvc.perform(post("/accounts")
                 .param("name", "My foo account")
