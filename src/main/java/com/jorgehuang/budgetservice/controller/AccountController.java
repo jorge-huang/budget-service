@@ -32,6 +32,17 @@ public class AccountController {
         return account;
     }
 
+    @PostMapping("/accounts")
+    public ResponseEntity createAccount(@RequestParam String name, @RequestParam String type) {
+        Account account = new Account();
+        account.setName(name);
+        account.setType(type);
+        if (accountService.create(account) < 1) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/accounts/{id}")
     public ResponseEntity deleteAccountById(@PathVariable Integer id) {
         if (accountService.delete(id) > 0) {
@@ -53,16 +64,5 @@ public class AccountController {
         }
 
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @PostMapping("/accounts")
-    public ResponseEntity createAccount(@RequestParam String name, @RequestParam String type) {
-        Account account = new Account();
-        account.setName(name);
-        account.setType(type);
-        if (accountService.create(account) < 1) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity(HttpStatus.CREATED);
     }
 }
