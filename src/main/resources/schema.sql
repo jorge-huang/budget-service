@@ -44,17 +44,15 @@ CREATE TABLE IF NOT EXISTS accounts (
 	FOREIGN KEY (group_id) REFERENCES groups(id)
 );
 
---CREATE TABLE IF NOT EXISTS activity (
---	id INT NOT NULL AUTO_INCREMENT,
---	description VARCHAR(255),
---	category VARCHAR(255),
---	amount DECIMAL(13, 2),
---	date DATE,
---	account_id INT NOT NULL,
---	user_id VARCHAR(255) NOT NULL,
---    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
---	PRIMARY KEY (id),
---	FOREIGN KEY (account_id) REFERENCES account(id),
---	FOREIGN KEY (user_id) REFERENCES user(id)
---);
+CREATE TABLE IF NOT EXISTS transactions (
+	id INT NOT NULL AUTO_INCREMENT,
+	description VARCHAR(255),
+	category VARCHAR(255),
+	amount DECIMAL(13, 2),
+	date DATE,
+	account_id INT NOT NULL,
+	group_id BIGINT NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (account_id) REFERENCES accounts(id),
+	FOREIGN KEY (group_id) REFERENCES groups(id)
+);
