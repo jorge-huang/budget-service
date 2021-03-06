@@ -21,7 +21,11 @@ public class AccountService {
     }
 
     public Account findById(int id) {
-        return accountRepository.findById(id);
+        try {
+            return accountRepository.findById(id);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public int delete(int id) {

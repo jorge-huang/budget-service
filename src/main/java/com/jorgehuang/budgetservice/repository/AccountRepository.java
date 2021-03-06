@@ -31,12 +31,8 @@ public class AccountRepository {
                 getCurrentUserGroupId());
     }
 
-    public Account findById(int id) {
-        try {
-            return jdbcTemplate.queryForObject("SELECT * FROM accounts WHERE id = ? AND group_id = ?", new AccountMapper(), id, getCurrentUserGroupId());
-        } catch (Exception e) {
-            return null;
-        }
+    public Account findById(int id) throws DataAccessException {
+        return jdbcTemplate.queryForObject("SELECT * FROM accounts WHERE id = ? AND group_id = ?", new AccountMapper(), id, getCurrentUserGroupId());
     }
 
     public int delete(int id) throws DataAccessException {
