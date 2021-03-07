@@ -27,7 +27,7 @@ public class AccountServiceTest {
     AccountRepository accountRepository;
 
     @Test
-    public void shouldReturnAllAccounts() {
+    public void shouldReturnAllAccounts() throws Exception {
         List<Account> accounts = new ArrayList<>();
         accounts.add(new Account(1, "My Bank Savings", "Savings", true));
         accounts.add(new Account(2, "My Bank Checking", "Checking", false));
@@ -38,25 +38,25 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void shouldReturnNullWhenAllAccountsThrowsException() {
+    public void shouldReturnNullWhenAllAccountsThrowsException() throws Exception {
         when(accountRepository.getAll()).thenThrow(mock(DataAccessException.class));
         assertNull(service.getAll());
     }
 
     @Test
-    public void shouldCreateAccount() {
+    public void shouldCreateAccount() throws Exception {
         when(accountRepository.create(any())).thenReturn(1);
         assertEquals(1, service.create(any(Account.class)));
     }
 
     @Test
-    public void shouldReturnZeroWhenCreateAccountThrowsException() {
+    public void shouldReturnZeroWhenCreateAccountThrowsException() throws Exception {
         when(accountRepository.create(any())).thenThrow(mock(DataAccessException.class));
         assertEquals(0, service.create(any(Account.class)));
     }
 
     @Test
-    public void shouldFindAccountById() {
+    public void shouldFindAccountById() throws Exception {
         Account account = new Account();
         account.setId(1);
         when(accountRepository.getById(anyInt())).thenReturn(account);
@@ -64,25 +64,25 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void shouldReturnNullWhenFindAccountByIdRepositoryThrowsException() {
+    public void shouldReturnNullWhenFindAccountByIdRepositoryThrowsException() throws Exception {
         when(accountRepository.getById(anyInt())).thenThrow(mock(DataAccessException.class));
         assertEquals(null, service.getById(1));
     }
 
     @Test
-    public void shouldDeleteAccountById() {
+    public void shouldDeleteAccountById() throws Exception {
         when(accountRepository.delete(anyInt())).thenReturn(1);
         assertEquals(1, service.delete(1));
     }
 
     @Test
-    public void shouldReturnZeroWhenDeleteAccountByIdThrowsException() {
+    public void shouldReturnZeroWhenDeleteAccountByIdThrowsException() throws Exception {
         when(accountRepository.delete(anyInt())).thenThrow(mock(DataAccessException.class));
         assertEquals(0, service.delete(1));
     }
 
     @Test
-    public void shouldUpdateAccountById() {
+    public void shouldUpdateAccountById() throws Exception {
         Account account = new Account();
         account.setId(1);
         when(accountRepository.update(any())).thenReturn(1);
@@ -90,7 +90,7 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void shouldReturnZeroWhenZeroUpdateAccountByIdThrowsException() {
+    public void shouldReturnZeroWhenZeroUpdateAccountByIdThrowsException() throws Exception {
         when(accountRepository.update(any())).thenThrow(mock(DataAccessException.class));
         assertEquals(0, service.update(new Account()));
     }

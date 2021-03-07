@@ -19,7 +19,7 @@ public class AccountRepositoryIntegrationTest {
 
     @Test
     @WithMockUser("user3")
-    public void getAllAccounts() {
+    public void getAllAccounts() throws Exception {
         List<Account> accounts = accountRepository.getAll();
         assertEquals(3, accounts.size());
         assertEquals("My Bank Checking C", accounts.get(0).getName());
@@ -29,7 +29,7 @@ public class AccountRepositoryIntegrationTest {
 
     @Test
     @WithMockUser()
-    public void getById() {
+    public void getById() throws Exception {
         Account account = accountRepository.getById(1);
         assertEquals(1, account.getId());
         assertEquals("My Bank Checking A", account.getName());
@@ -39,7 +39,7 @@ public class AccountRepositoryIntegrationTest {
 
     @Test
     @WithMockUser()
-    public void createUpdateDeleteAccount() {
+    public void createUpdateDeleteAccount() throws Exception {
         Account account = new Account();
         account.setName("test");
         account.setType("investment");

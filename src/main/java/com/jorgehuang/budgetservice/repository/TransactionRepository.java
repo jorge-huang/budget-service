@@ -3,7 +3,6 @@ package com.jorgehuang.budgetservice.repository;
 import com.jorgehuang.budgetservice.domain.Transaction;
 import com.jorgehuang.budgetservice.repository.mapper.TransactionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
@@ -15,22 +14,22 @@ public class TransactionRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private int getCurrentUserGroupId() throws DataAccessException {
+    private int getCurrentUserGroupId() throws Exception {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return jdbcTemplate.queryForObject("SELECT group_id FROM group_members WHERE username = ?", Integer.class, username);
     }
 
-    public List<Transaction> getByDateRange(String start, String end) throws DataAccessException {
+    public List<Transaction> getByDateRange(String start, String end) throws Exception {
         String sql = "SELECT transactions.id, description, category, amount, date, account_id, accounts.name AS account_name FROM transactions JOIN accounts ON account_id = accounts.id AND transactions.group_id = ? AND date BETWEEN ? AND ?";
         return jdbcTemplate.query(sql, new TransactionMapper(), getCurrentUserGroupId(), start, end);
     }
 
-    public List<Transaction> getById(Integer id) throws DataAccessException {
+    public List<Transaction> getById(Integer id) throws Exception {
         String sql = "SELECT transactions.id, description, category, amount, date, account_id, accounts.name AS account_name FROM transactions JOIN accounts ON account_id = accounts.id AND transactions.group_id = ? AND transactions.id = ?";
         return jdbcTemplate.query(sql, new TransactionMapper(), getCurrentUserGroupId(), id);
     }
 
-    public int create(Transaction transaction) {
+    public int create(Transaction transaction) throws Exception {
         String sql = "INSERT INTO transactions (description, category, amount, date, account_id, group_id) VALUES (?, ?, ?, ?, ?, ?)";
         return jdbcTemplate.update(sql,
                 transaction.getDescription(),
@@ -41,7 +40,7 @@ public class TransactionRepository {
                 getCurrentUserGroupId());
     }
 
-    public int update(Transaction transaction) {
+    public int update(Transaction transaction) throws Exception {
         String sql = "UPDATE transactions SET description = ?, category = ?, amount = ?, date = ?, account_id = ? WHERE id = ? AND group_id = ?";
         return jdbcTemplate.update(sql,
                 transaction.getDescription(),
@@ -53,7 +52,7 @@ public class TransactionRepository {
                 getCurrentUserGroupId());
     }
 
-    public int delete(int id) {
+    public int delete(int id) throws Exception {
         String sql = "DELETE FROM transactions WHERE id = ? AND group_id = ?";
         return jdbcTemplate.update(sql, id, getCurrentUserGroupId());
     }
