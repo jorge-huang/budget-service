@@ -19,9 +19,9 @@ public class TransactionRepository {
         return jdbcTemplate.queryForObject("SELECT group_id FROM group_members WHERE username = ?", Integer.class, username);
     }
 
-    public List<Transaction> getByDateRange(String start, String end) throws Exception {
+    public List<Transaction> getByDateRange(String startDate, String endDate) throws Exception {
         String sql = "SELECT transactions.id, description, category, amount, date, account_id, accounts.name AS account_name FROM transactions JOIN accounts ON account_id = accounts.id AND transactions.group_id = ? AND date BETWEEN ? AND ?";
-        return jdbcTemplate.query(sql, new TransactionMapper(), getCurrentUserGroupId(), start, end);
+        return jdbcTemplate.query(sql, new TransactionMapper(), getCurrentUserGroupId(), startDate, endDate);
     }
 
     public List<Transaction> getById(Integer id) throws Exception {
