@@ -34,7 +34,7 @@ public class AccountController {
     }
 
     @PostMapping("/accounts")
-    public ResponseEntity createAccount(@RequestParam String name, @RequestParam String type) {
+    public ResponseEntity<HttpStatus> createAccount(@RequestParam String name, @RequestParam String type) {
         Account account = new Account();
         account.setName(name);
         account.setType(type);
@@ -44,21 +44,21 @@ public class AccountController {
                 new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @DeleteMapping("/accounts/{id}")
-    public ResponseEntity deleteAccountById(@PathVariable Integer id) {
-        return accountService.delete(id) ?
-                new ResponseEntity(HttpStatus.OK) :
-                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @PutMapping("/accounts/{id}")
-    public ResponseEntity updateAccountById(
+    public ResponseEntity<HttpStatus> updateAccountById(
             @PathVariable Integer id,
             @RequestParam String name,
             @RequestParam String type,
             @RequestParam Boolean enabled) {
         Account account = new Account(id, name, type, enabled);
         return accountService.update(account) ?
+                new ResponseEntity(HttpStatus.OK) :
+                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @DeleteMapping("/accounts/{id}")
+    public ResponseEntity<HttpStatus> deleteAccountById(@PathVariable Integer id) {
+        return accountService.delete(id) ?
                 new ResponseEntity(HttpStatus.OK) :
                 new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
