@@ -45,19 +45,19 @@ public class AccountServiceTest {
     @Test
     public void shouldReturnTrueWhenAccountIsCreated() throws Exception {
         when(accountRepository.create(any())).thenReturn(1);
-        assertTrue(service.create(any(Account.class)));
+        assertTrue(service.create(new Account()));
     }
 
     @Test
     public void shouldReturnFalseWhenAccountIsNotCreated() throws Exception {
         when(accountRepository.create(any())).thenReturn(0);
-        assertFalse(service.create(any(Account.class)));
+        assertFalse(service.create(new Account()));
     }
 
     @Test
     public void shouldReturnFalseWhenCreateAccountThrowsException() throws Exception {
         when(accountRepository.create(any())).thenThrow(mock(DataAccessException.class));
-        assertFalse(service.create(any(Account.class)));
+        assertFalse(service.create(new Account()));
     }
 
     @Test
@@ -95,13 +95,13 @@ public class AccountServiceTest {
     @Test
     public void shouldReturnTrueWhenAccountIsUpdated() throws Exception {
         when(accountRepository.update(any())).thenReturn(1);
-        assertTrue(service.update(any(Account.class)));
+        assertTrue(service.update(new Account()));
     }
 
     @Test
     public void shouldReturnFalseWhenAccountIsNotUpdated() throws Exception {
         when(accountRepository.update(any())).thenReturn(0);
-        assertFalse(service.update(any(Account.class)));
+        assertFalse(service.update(new Account()));
     }
 
     @Test
