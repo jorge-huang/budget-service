@@ -27,4 +27,12 @@ public class TransactionService {
             return null;
         }
     }
+
+    public boolean create(Transaction transaction) {
+        try {
+            return transactionRepository.create(transaction) > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

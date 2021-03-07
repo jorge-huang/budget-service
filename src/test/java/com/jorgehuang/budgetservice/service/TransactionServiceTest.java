@@ -11,10 +11,8 @@ import org.springframework.dao.DataAccessException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -64,7 +62,24 @@ public class TransactionServiceTest {
         assertNull(service.getById(1));
     }
 
-    // TODO: create
+    @Test
+    public void shouldReturnTrueWhenTransactionIsCreated() throws Exception {
+        when(transactionRepository.create(any())).thenReturn(1);
+        assertTrue(service.create(new Transaction()));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTransactionIsNotCreated() throws Exception {
+        when(transactionRepository.create(any())).thenReturn(0);
+        assertFalse(service.create(new Transaction()));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTransactionThrowsException() throws Exception {
+        when(transactionRepository.create(any())).thenThrow(mock(DataAccessException.class));
+        assertFalse(service.create(new Transaction()));
+    }
+
     // TODO: update
     // TODO: delete
 }
