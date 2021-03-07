@@ -13,7 +13,7 @@ public class AccountService {
     AccountRepository accountRepository;
 
     public List<Account> getAll() {
-        return accountRepository.getAllAccounts();
+        return accountRepository.getAll();
     }
 
     public int create(Account account) {
@@ -22,7 +22,7 @@ public class AccountService {
 
     public Account findById(int id) {
         try {
-            return accountRepository.findById(id);
+            return accountRepository.getById(id);
         } catch (Exception e) {
             return null;
         }

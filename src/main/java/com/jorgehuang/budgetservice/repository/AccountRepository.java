@@ -20,7 +20,7 @@ public class AccountRepository {
         return jdbcTemplate.queryForObject("SELECT group_id FROM group_members WHERE username = ?", Integer.class, username);
     }
 
-    public List<Account> getAllAccounts() throws DataAccessException {
+    public List<Account> getAll() throws DataAccessException {
         return jdbcTemplate.query("SELECT * FROM accounts WHERE group_id = ?", new AccountMapper(), getCurrentUserGroupId());
     }
 
@@ -31,7 +31,7 @@ public class AccountRepository {
                 getCurrentUserGroupId());
     }
 
-    public Account findById(int id) throws DataAccessException {
+    public Account getById(int id) throws DataAccessException {
         return jdbcTemplate.queryForObject("SELECT * FROM accounts WHERE id = ? AND group_id = ?", new AccountMapper(), id, getCurrentUserGroupId());
     }
 

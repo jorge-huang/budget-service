@@ -31,7 +31,7 @@ public class AccountServiceTest {
         List<Account> accounts = new ArrayList<>();
         accounts.add(new Account(1, "My Bank Savings", "Savings", true));
         accounts.add(new Account(2, "My Bank Checking", "Checking", false));
-        when(accountRepository.getAllAccounts()).thenReturn(accounts);
+        when(accountRepository.getAll()).thenReturn(accounts);
     }
 
     @Test
@@ -51,13 +51,13 @@ public class AccountServiceTest {
     public void shouldFindAccountById() {
         Account account = new Account();
         account.setId(1);
-        when(accountRepository.findById(anyInt())).thenReturn(account);
+        when(accountRepository.getById(anyInt())).thenReturn(account);
         assertEquals(1, service.findById(1).getId());
     }
 
     @Test
     public void shouldReturnNullWhenFindAccountByIdRepositoryThrowsException() {
-        when(accountRepository.findById(anyInt())).thenThrow(mock(DataAccessException.class));
+        when(accountRepository.getById(anyInt())).thenThrow(mock(DataAccessException.class));
         assertEquals(null, service.findById(1));
     }
 
