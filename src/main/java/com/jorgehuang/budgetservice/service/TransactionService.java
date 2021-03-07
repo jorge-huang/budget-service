@@ -30,7 +30,7 @@ public class TransactionService {
 
     public boolean create(Transaction transaction) {
         try {
-            return transactionRepository.create(transaction) > 0;
+            return transactionRepository.create(transaction) == 1;
         } catch (Exception e) {
             return false;
         }
@@ -38,7 +38,7 @@ public class TransactionService {
 
     public boolean update(Transaction transaction) {
         try {
-            return transactionRepository.update(transaction) > 0;
+            return transactionRepository.update(transaction) == 1;
         } catch (Exception e) {
             return false;
         }
@@ -46,7 +46,7 @@ public class TransactionService {
 
     public boolean delete(int id) {
         try {
-            return transactionRepository.delete(id) > 0;
+            return transactionRepository.delete(id) == 1;
         } catch (Exception e) {
             return false;
         }
