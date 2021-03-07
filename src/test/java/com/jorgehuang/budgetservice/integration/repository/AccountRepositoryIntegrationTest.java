@@ -45,7 +45,7 @@ public class AccountRepositoryIntegrationTest {
         account.setType("investment");
         assertEquals(1, accountRepository.create(account));
 
-        account = new Account(1, "My Account", "savings", true);
+        account = new Account(10, "My Account", "savings", true);
         assertEquals(1, accountRepository.update(account));
         assertEquals(1, accountRepository.delete(10));
     }
