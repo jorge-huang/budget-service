@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
@@ -26,25 +27,33 @@ public class AccountServiceTest {
     @MockBean
     AccountRepository accountRepository;
 
-    @BeforeEach
-    public void setUp() {
+    @Test
+    public void shouldReturnAllAccounts() {
         List<Account> accounts = new ArrayList<>();
         accounts.add(new Account(1, "My Bank Savings", "Savings", true));
         accounts.add(new Account(2, "My Bank Checking", "Checking", false));
         when(accountRepository.getAll()).thenReturn(accounts);
-    }
-
-    @Test
-    public void shouldReturnAllAccounts() {
         assertEquals(2, service.getAll().size());
         assertEquals(1, service.getAll().get(0).getId());
         assertEquals(2, service.getAll().get(1).getId());
     }
 
     @Test
+    public void shouldReturnNullWhenAllAccountsThrowsException() {
+        when(accountRepository.getAll()).thenThrow(mock(DataAccessException.class));
+        assertNull(service.getAll());
+    }
+
+    @Test
     public void shouldCreateAccount() {
         when(accountRepository.create(any())).thenReturn(1);
         assertEquals(1, service.create(any(Account.class)));
+    }
+
+    @Test
+    public void shouldReturnZeroWhenCreateAccountThrowsException() {
+        when(accountRepository.create(any())).thenThrow(mock(DataAccessException.class));
+        assertEquals(0, service.create(any(Account.class)));
     }
 
     @Test
@@ -68,6 +77,12 @@ public class AccountServiceTest {
     }
 
     @Test
+    public void shouldReturnZeroWhenDeleteAccountByIdThrowsException() {
+        when(accountRepository.delete(anyInt())).thenThrow(mock(DataAccessException.class));
+        assertEquals(0, service.delete(1));
+    }
+
+    @Test
     public void shouldUpdateAccountById() {
         Account account = new Account();
         account.setId(1);
@@ -76,9 +91,8 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void shouldNotUpdateAccountWhenIdIsNull() {
-        Account account = new Account();
-        when(accountRepository.update(any())).thenReturn(1);
-        assertEquals(0, service.update(account));
+    public void shouldReturnZeroWhenZeroUpdateAccountByIdThrowsException() {
+        when(accountRepository.update(any())).thenThrow(mock(DataAccessException.class));
+        assertEquals(0, service.update(new Account()));
     }
 }

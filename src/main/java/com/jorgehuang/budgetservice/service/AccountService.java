@@ -13,11 +13,19 @@ public class AccountService {
     AccountRepository accountRepository;
 
     public List<Account> getAll() {
-        return accountRepository.getAll();
+        try {
+            return accountRepository.getAll();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public int create(Account account) {
-        return accountRepository.create(account);
+        try {
+            return accountRepository.create(account);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public Account getById(int id) {
@@ -29,14 +37,18 @@ public class AccountService {
     }
 
     public int delete(int id) {
-        return accountRepository.delete(id);
+        try {
+            return accountRepository.delete(id);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public int update(Account account) {
-        if (account.getId() == null) {
+        try {
+            return accountRepository.update(account);
+        } catch (Exception e) {
             return 0;
         }
-
-        return accountRepository.update(account);
     }
 }
