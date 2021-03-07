@@ -13,6 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,7 +27,7 @@ public class TransactionServiceTest {
     private TransactionRepository transactionRepository;
 
     @Test
-    public void getByDateRangeShouldReturnListOfTransactions() throws Exception {
+    public void shouldReturnListOfTransactions() throws Exception {
         List<Transaction> transactions = new ArrayList<>(2);
         transactions.add(new Transaction(1, null, null, null, null, null, null));
         transactions.add(new Transaction(2, null, null, null, null, null, null));
@@ -38,11 +39,31 @@ public class TransactionServiceTest {
 
     @Test
     public void shouldReturnZeroWhenGetByDateRangeThrowsException() throws Exception {
-        when(transactionRepository.getByDateRange(anyString(), anyString())).thenThrow(mock(DataAccessException.class));;
+        when(transactionRepository.getByDateRange(anyString(), anyString())).thenThrow(mock(DataAccessException.class));
         assertNull(service.getByDateRange("2021-01-01", "2021-01-31"));
     }
 
-    // TODO: getById
+    @Test
+    public void shouldReturnTransactionById() throws Exception {
+        List<Transaction> transactions = new ArrayList<>(1);
+        transactions.add(new Transaction(1, null, null, null, null, null, null));
+        when(transactionRepository.getById(1)).thenReturn(transactions);
+        assertEquals(1, service.getById(1).getId());
+    }
+
+    @Test
+    public void shouldReturnNullWhenTransactionByIdIsEmpty() throws Exception {
+        List<Transaction> transactions = new ArrayList<>();
+        when(transactionRepository.getById(anyInt())).thenReturn(transactions);
+        assertNull(service.getById(1));
+    }
+
+    @Test
+    public void shouldReturnNullWhenTransactionThrowsException() throws Exception {
+        when(transactionRepository.getById(anyInt())).thenThrow(mock(DataAccessException.class));
+        assertNull(service.getById(1));
+    }
+
     // TODO: create
     // TODO: update
     // TODO: delete

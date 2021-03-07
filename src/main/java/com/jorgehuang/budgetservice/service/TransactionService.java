@@ -19,4 +19,12 @@ public class TransactionService {
             return null;
         }
     }
+
+    public Transaction getById(int i) {
+        try {
+            return transactionRepository.getById(1).get(0);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
