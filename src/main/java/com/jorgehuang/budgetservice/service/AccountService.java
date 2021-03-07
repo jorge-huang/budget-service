@@ -20,7 +20,7 @@ public class AccountService {
         return accountRepository.create(account);
     }
 
-    public Account findById(int id) {
+    public Account getById(int id) {
         try {
             return accountRepository.getById(id);
         } catch (Exception e) {

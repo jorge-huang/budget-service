@@ -52,13 +52,13 @@ public class AccountServiceTest {
         Account account = new Account();
         account.setId(1);
         when(accountRepository.getById(anyInt())).thenReturn(account);
-        assertEquals(1, service.findById(1).getId());
+        assertEquals(1, service.getById(1).getId());
     }
 
     @Test
     public void shouldReturnNullWhenFindAccountByIdRepositoryThrowsException() {
         when(accountRepository.getById(anyInt())).thenThrow(mock(DataAccessException.class));
-        assertEquals(null, service.findById(1));
+        assertEquals(null, service.getById(1));
     }
 
     @Test

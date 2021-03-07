@@ -33,7 +33,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void getAccountByIdShouldReturnAccount() throws Exception {
-        when(accountService.findById(anyInt())).thenReturn(new Account());
+        when(accountService.getById(anyInt())).thenReturn(new Account());
         mockMvc.perform(get("/accounts/1")).andExpect(status().isOk());
     }
 
@@ -78,7 +78,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void getAccountByIdShouldReturnAccountWhenNull() throws Exception {
-        when(accountService.findById(anyInt())).thenReturn(null);
+        when(accountService.getById(anyInt())).thenReturn(null);
         mockMvc.perform(get("/accounts/1"))
                 .andExpect(status().isNotFound());
     }

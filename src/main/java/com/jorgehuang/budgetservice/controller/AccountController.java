@@ -24,7 +24,7 @@ public class AccountController {
     @GetMapping("/accounts/{id}")
     @ResponseBody
     public Object getAccountById(@PathVariable Integer id) {
-        Account account = accountService.findById(id);
+        Account account = accountService.getById(id);
         if (account == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
