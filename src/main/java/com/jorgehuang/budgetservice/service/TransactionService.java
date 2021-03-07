@@ -43,4 +43,12 @@ public class TransactionService {
             return false;
         }
     }
+
+    public boolean delete(int id) {
+        try {
+            return transactionRepository.delete(id) > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

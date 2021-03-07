@@ -99,5 +99,22 @@ public class TransactionServiceTest {
         assertFalse(service.update(new Transaction()));
     }
 
-    // TODO: delete
+    @Test
+    public void shouldReturnTrueWhenTransactionIsDeleted() throws Exception {
+        when(transactionRepository.delete(anyInt())).thenReturn(1);
+        assertTrue(service.delete(1));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTransactionIsNotDeleted() throws Exception {
+        when(transactionRepository.delete(anyInt())).thenReturn(0);
+        assertFalse(service.delete(1));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTransactionDeletionThrowsException() throws Exception {
+        when(transactionRepository.delete(anyInt())).thenThrow(mock(DataAccessException.class));
+        assertFalse(service.delete(1));
+    }
+
 }
