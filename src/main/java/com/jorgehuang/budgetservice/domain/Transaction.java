@@ -1,12 +1,10 @@
 package com.jorgehuang.budgetservice.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Transaction {
