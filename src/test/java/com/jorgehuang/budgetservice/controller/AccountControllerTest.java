@@ -47,7 +47,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void deleteAccountByIdShouldReturn200() throws Exception {
-        when(accountService.delete(anyInt())).thenReturn(1);
+        when(accountService.delete(anyInt())).thenReturn(true);
         mockMvc.perform(delete("/accounts/1")
                 .with(csrf()))
                 .andExpect(status().isOk());
@@ -56,7 +56,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void deleteAccountByIdShouldReturn500() throws Exception {
-        when(accountService.delete(anyInt())).thenReturn(0);
+        when(accountService.delete(anyInt())).thenReturn(false);
         mockMvc.perform(delete("/accounts/100")
                 .with(csrf()))
                 .andExpect(status().isInternalServerError());
@@ -65,7 +65,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void deleteAccountByIdShouldReturn403WhenCSRFIsNull() throws Exception {
-        when(accountService.delete(anyInt())).thenReturn(1);
+        when(accountService.delete(anyInt())).thenReturn(true);
         mockMvc.perform(delete("/accounts/1"))
                 .andExpect(status().isForbidden());
     }
@@ -73,7 +73,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void updateAccountShouldReturn200() throws Exception {
-        when(accountService.update(any())).thenReturn(1);
+        when(accountService.update(any())).thenReturn(true);
         mockMvc.perform(put("/accounts/1")
                 .param("name", "bank")
                 .param("type", "checking")
@@ -93,7 +93,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void postAccountsShouldReturnStatusCode201() throws Exception {
-        when(accountService.create(any())).thenReturn(1);
+        when(accountService.create(any())).thenReturn(true);
         mockMvc.perform(post("/accounts")
                 .param("name", "My bank account")
                 .param("type", "investment")
@@ -104,7 +104,7 @@ public class AccountControllerTest {
     @Test
     @WithMockUser()
     public void postAccountsShouldReturnStatusCode500() throws Exception {
-        when(accountService.create(any())).thenReturn(0);
+        when(accountService.create(any())).thenReturn(false);
         mockMvc.perform(post("/accounts")
                 .param("name", "My bank account")
                 .param("type", "investment")

@@ -20,11 +20,11 @@ public class AccountService {
         }
     }
 
-    public int create(Account account) {
+    public boolean create(Account account) {
         try {
-            return accountRepository.create(account);
+            return accountRepository.create(account) == 1;
         } catch (Exception e) {
-            return 0;
+            return false;
         }
     }
 
@@ -36,19 +36,19 @@ public class AccountService {
         }
     }
 
-    public int delete(int id) {
+    public boolean delete(int id) {
         try {
-            return accountRepository.delete(id);
+            return accountRepository.delete(id) == 1;
         } catch (Exception e) {
-            return 0;
+            return false;
         }
     }
 
-    public int update(Account account) {
+    public boolean update(Account account) {
         try {
-            return accountRepository.update(account);
+            return accountRepository.update(account) == 1;
         } catch (Exception e) {
-            return 0;
+            return false;
         }
     }
 }

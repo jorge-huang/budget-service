@@ -11,8 +11,7 @@ import org.springframework.dao.DataAccessException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
@@ -44,15 +43,21 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void shouldCreateAccount() throws Exception {
+    public void shouldReturnTrueWhenAccountIsCreated() throws Exception {
         when(accountRepository.create(any())).thenReturn(1);
-        assertEquals(1, service.create(any(Account.class)));
+        assertTrue(service.create(any(Account.class)));
     }
 
     @Test
-    public void shouldReturnZeroWhenCreateAccountThrowsException() throws Exception {
+    public void shouldReturnFalseWhenAccountIsNotCreated() throws Exception {
+        when(accountRepository.create(any())).thenReturn(0);
+        assertFalse(service.create(any(Account.class)));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenCreateAccountThrowsException() throws Exception {
         when(accountRepository.create(any())).thenThrow(mock(DataAccessException.class));
-        assertEquals(0, service.create(any(Account.class)));
+        assertFalse(service.create(any(Account.class)));
     }
 
     @Test
@@ -70,28 +75,38 @@ public class AccountServiceTest {
     }
 
     @Test
-    public void shouldDeleteAccountById() throws Exception {
+    public void shouldReturnTrueWhenAccountIsDeleted() throws Exception {
         when(accountRepository.delete(anyInt())).thenReturn(1);
-        assertEquals(1, service.delete(1));
+        assertTrue(service.delete(1));
     }
 
     @Test
-    public void shouldReturnZeroWhenDeleteAccountByIdThrowsException() throws Exception {
+    public void shouldReturnTrueWhenAccountIsNotDeleted() throws Exception {
+        when(accountRepository.delete(anyInt())).thenReturn(0);
+        assertFalse(service.delete(1));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenDeleteAccountThrowsException() throws Exception {
         when(accountRepository.delete(anyInt())).thenThrow(mock(DataAccessException.class));
-        assertEquals(0, service.delete(1));
+        assertFalse(service.delete(1));
     }
 
     @Test
-    public void shouldUpdateAccountById() throws Exception {
-        Account account = new Account();
-        account.setId(1);
+    public void shouldReturnTrueWhenAccountIsUpdated() throws Exception {
         when(accountRepository.update(any())).thenReturn(1);
-        assertEquals(1, service.update(account));
+        assertTrue(service.update(any(Account.class)));
     }
 
     @Test
-    public void shouldReturnZeroWhenZeroUpdateAccountByIdThrowsException() throws Exception {
+    public void shouldReturnFalseWhenAccountIsNotUpdated() throws Exception {
+        when(accountRepository.update(any())).thenReturn(0);
+        assertFalse(service.update(any(Account.class)));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenUpdateAccountThrowsException() throws Exception {
         when(accountRepository.update(any())).thenThrow(mock(DataAccessException.class));
-        assertEquals(0, service.update(new Account()));
+        assertFalse(service.update(new Account()));
     }
 }

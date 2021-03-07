@@ -19,21 +19,18 @@ public class AccountController {
     @ResponseBody
     public Object getAccounts() {
         List<Account> accounts = accountService.getAll();
-        if (accounts == null) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return accounts;
+        return accounts != null ?
+                accounts :
+                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @GetMapping("/accounts/{id}")
     @ResponseBody
     public Object getAccountById(@PathVariable Integer id) {
         Account account = accountService.getById(id);
-        if (account == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-
-        return account;
+        return account != null ?
+                account :
+                new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/accounts")
@@ -41,20 +38,17 @@ public class AccountController {
         Account account = new Account();
         account.setName(name);
         account.setType(type);
-        if (accountService.create(account) > 0) {
-            return new ResponseEntity(HttpStatus.CREATED);
-        }
 
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        return accountService.create(account) ?
+                new ResponseEntity(HttpStatus.CREATED):
+                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/accounts/{id}")
     public ResponseEntity deleteAccountById(@PathVariable Integer id) {
-        if (accountService.delete(id) > 0) {
-            return new ResponseEntity(HttpStatus.OK);
-        }
-
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        return accountService.delete(id) ?
+                new ResponseEntity(HttpStatus.OK) :
+                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping("/accounts/{id}")
@@ -64,10 +58,8 @@ public class AccountController {
             @RequestParam String type,
             @RequestParam Boolean enabled) {
         Account account = new Account(id, name, type, enabled);
-        if (accountService.update(account) > 0) {
-            return new ResponseEntity(HttpStatus.OK);
-        }
-
-        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        return accountService.update(account) ?
+                new ResponseEntity(HttpStatus.OK) :
+                new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
