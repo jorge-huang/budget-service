@@ -35,4 +35,12 @@ public class TransactionService {
             return false;
         }
     }
+
+    public boolean update(Transaction transaction) {
+        try {
+            return transactionRepository.update(transaction) > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

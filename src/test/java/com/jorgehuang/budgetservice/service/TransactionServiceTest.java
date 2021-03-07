@@ -75,11 +75,29 @@ public class TransactionServiceTest {
     }
 
     @Test
-    public void shouldReturnFalseWhenTransactionThrowsException() throws Exception {
+    public void shouldReturnFalseWhenTransactionCreationThrowsException() throws Exception {
         when(transactionRepository.create(any())).thenThrow(mock(DataAccessException.class));
         assertFalse(service.create(new Transaction()));
     }
 
     // TODO: update
+    @Test
+    public void shouldReturnTrueWhenTransactionIsUpdated() throws Exception {
+        when(transactionRepository.update(any())).thenReturn(1);
+        assertTrue(service.update(new Transaction()));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTransactionIsNotUpdated() throws Exception {
+        when(transactionRepository.update(any())).thenReturn(0);
+        assertFalse(service.update(new Transaction()));
+    }
+
+    @Test
+    public void shouldReturnFalseWhenTransactionUpdateThrowsException() throws Exception {
+        when(transactionRepository.update(any())).thenThrow(mock(DataAccessException.class));
+        assertFalse(service.update(new Transaction()));
+    }
+
     // TODO: delete
 }
