@@ -7,6 +7,7 @@ import org.springframework.core.env.Profiles;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -16,29 +17,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private Environment environment;
 
     private void configureForDevProfile(HttpSecurity http) throws Exception {
-        http
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().authenticated();
-
         http.csrf().ignoringAntMatchers("/h2-console/**");
         http.headers().frameOptions().sameOrigin();
-        http.csrf().disable(); // TODO: find out how to implement CSRF
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic()
+                .and()
+                .csrf()
+                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
+                .authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
+                .anyRequest()
+                .authenticated();
+
         if (environment.acceptsProfiles(Profiles.of("dev"))) {
             configureForDevProfile(http);
             return;
         }
-
-        http
-                .httpBasic()
-                .and()
-                .authorizeRequests()
-                .anyRequest().authenticated();
     }
 }
