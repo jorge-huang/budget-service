@@ -21,7 +21,7 @@ public class TransactionRepositoryIntegrationTest {
     @Test
     @WithMockUser()
     public void getTransactionsByDateRange() {
-        List<Transaction> transactions = repository.getTransactionsByDateRange("2021-01-01", "2021-01-31");
+        List<Transaction> transactions = repository.getByDateRange("2021-01-01", "2021-01-31");
         assertEquals(2, transactions.size());
         assertEquals(1, transactions.get(0).getId());
         assertEquals("food from best grocery", transactions.get(0).getDescription());
@@ -35,7 +35,7 @@ public class TransactionRepositoryIntegrationTest {
     @Test
     @WithMockUser()
     public void getTransactionsById() {
-        List<Transaction> transaction = repository.getTransactionById(1);
+        List<Transaction> transaction = repository.getById(1);
         assertEquals(1, transaction.size());
         assertEquals(1, transaction.get(0).getId());
         assertEquals("food from best grocery", transaction.get(0).getDescription());
@@ -66,13 +66,6 @@ public class TransactionRepositoryIntegrationTest {
         transaction.setDate(date);
         transaction.setAccountId(2);
         assertEquals(1, repository.update(transaction));
-        assertEquals(28, repository.getTransactionById(28).get(0).getId());
-        assertEquals("night in", repository.getTransactionById(28).get(0).getDescription());
-        assertEquals("not fun", repository.getTransactionById(28).get(0).getCategory());
-        assertEquals(1.50, repository.getTransactionById(28).get(0).getAmount());
-        assertEquals("2021-04-05", repository.getTransactionById(28).get(0).getDate().toString());
-        assertEquals(2, repository.getTransactionById(28).get(0).getAccountId());
-
         assertEquals(1, repository.delete(28));
     }
 }
