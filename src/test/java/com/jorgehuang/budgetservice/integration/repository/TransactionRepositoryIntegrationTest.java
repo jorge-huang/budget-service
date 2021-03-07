@@ -21,7 +21,7 @@ public class TransactionRepositoryIntegrationTest {
     @Test
     @WithMockUser()
     public void getTransactionsByDateRange() throws Exception {
-        List<Transaction> transactions = repository.getByDateRange("2021-01-01", "2021-01-31");
+        List<Transaction> transactions = repository.getByDateRange(new Date(1609477200000L), new Date(1612069200000L));
         assertEquals(2, transactions.size());
         assertEquals(1, transactions.get(0).getId());
         assertEquals("food from best grocery", transactions.get(0).getDescription());
@@ -49,21 +49,20 @@ public class TransactionRepositoryIntegrationTest {
     @Test
     @WithMockUser()
     public void createUpdateDeleteTransaction() throws Exception {
-        Transaction transaction = new Transaction();
-        transaction.setDescription("night out");
-        transaction.setCategory("fun");
-        transaction.setAmount(1.50);
-        Date date = new Date(1615081036661L);
-        transaction.setDate(date);
-        transaction.setAccountId(1);
+        Transaction transaction = Transaction.builder()
+                .description("night out")
+                .category("fun")
+                .amount(1.50)
+                .date(new Date(1615081036661L))
+                .accountId(1)
+                .build();
         assertEquals(1, repository.create(transaction));
 
         transaction.setId(28);
         transaction.setDescription("night in");
         transaction.setCategory("not fun");
         transaction.setAmount(1.50);
-        date = new Date(1617673036661L);
-        transaction.setDate(date);
+        transaction.setDate(new Date(1617673036661L));
         transaction.setAccountId(2);
         assertEquals(1, repository.update(transaction));
         assertEquals(1, repository.delete(28));

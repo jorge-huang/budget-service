@@ -8,11 +8,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataAccessException;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -29,16 +31,16 @@ public class TransactionServiceTest {
         List<Transaction> transactions = new ArrayList<>(2);
         transactions.add(new Transaction(1, null, null, null, null, null, null));
         transactions.add(new Transaction(2, null, null, null, null, null, null));
-        when(transactionRepository.getByDateRange(anyString(), anyString())).thenReturn(transactions);
-        List<Transaction> res = service.getByDateRange("2021-01-01", "2021-01-31");
+        when(transactionRepository.getByDateRange(any(Date.class), any(Date.class))).thenReturn(transactions);
+        List<Transaction> res = service.getByDateRange(1609477200000L, 1612069200000L);
         assertEquals(1, res.get(0).getId());
         assertEquals(2, res.get(1).getId());
     }
 
     @Test
     public void shouldReturnZeroWhenGetByDateRangeThrowsException() throws Exception {
-        when(transactionRepository.getByDateRange(anyString(), anyString())).thenThrow(mock(DataAccessException.class));
-        assertNull(service.getByDateRange("2021-01-01", "2021-01-31"));
+        when(transactionRepository.getByDateRange(any(Date.class), any(Date.class))).thenThrow(mock(DataAccessException.class));
+        assertNull(service.getByDateRange(1609477200000L, 1612069200000L));
     }
 
     @Test
@@ -64,38 +66,38 @@ public class TransactionServiceTest {
 
     @Test
     public void shouldReturnTrueWhenTransactionIsCreated() throws Exception {
-        when(transactionRepository.create(any())).thenReturn(1);
-        assertTrue(service.create(any(Transaction.class)));
+        when(transactionRepository.create(any(Transaction.class))).thenReturn(1);
+        assertTrue(service.create("", "", 2.15, 1L, 1));
     }
 
     @Test
     public void shouldReturnFalseWhenTransactionIsNotCreated() throws Exception {
-        when(transactionRepository.create(any())).thenReturn(0);
-        assertFalse(service.create(any(Transaction.class)));
+        when(transactionRepository.create(any(Transaction.class))).thenReturn(0);
+        assertFalse(service.create("", "", 2.15, 1L, 1));
     }
 
     @Test
     public void shouldReturnFalseWhenTransactionCreationThrowsException() throws Exception {
-        when(transactionRepository.create(any())).thenThrow(mock(DataAccessException.class));
-        assertFalse(service.create(any(Transaction.class)));
+        when(transactionRepository.create(any(Transaction.class))).thenThrow(mock(DataAccessException.class));
+        assertFalse(service.create("", "", 2.15, 1L, 1));
     }
 
     @Test
     public void shouldReturnTrueWhenTransactionIsUpdated() throws Exception {
-        when(transactionRepository.update(any())).thenReturn(1);
-        assertTrue(service.update(any(Transaction.class)));
+        when(transactionRepository.update(any(Transaction.class))).thenReturn(1);
+        assertTrue(service.update(1, "", "", 2.15, 1L, 1));
     }
 
     @Test
     public void shouldReturnFalseWhenTransactionIsNotUpdated() throws Exception {
-        when(transactionRepository.update(any())).thenReturn(0);
-        assertFalse(service.update(any(Transaction.class)));
+        when(transactionRepository.update(any(Transaction.class))).thenReturn(0);
+        assertFalse(service.update(1, "", "", 2.15, 1L, 1));
     }
 
     @Test
     public void shouldReturnFalseWhenTransactionUpdateThrowsException() throws Exception {
-        when(transactionRepository.update(any())).thenThrow(mock(DataAccessException.class));
-        assertFalse(service.update(any(Transaction.class)));
+        when(transactionRepository.update(any(Transaction.class))).thenThrow(mock(DataAccessException.class));
+        assertFalse(service.update(1, "", "", 2.15, 1L, 1));
     }
 
     @Test

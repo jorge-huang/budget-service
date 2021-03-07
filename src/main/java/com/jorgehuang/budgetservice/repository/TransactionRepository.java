@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Repository
@@ -19,7 +20,7 @@ public class TransactionRepository {
         return jdbcTemplate.queryForObject("SELECT group_id FROM group_members WHERE username = ?", Integer.class, username);
     }
 
-    public List<Transaction> getByDateRange(String startDate, String endDate) throws Exception {
+    public List<Transaction> getByDateRange(Date startDate, Date endDate) throws Exception {
         String sql = "SELECT transactions.id, description, category, amount, date, account_id, accounts.name AS account_name FROM transactions JOIN accounts ON account_id = accounts.id AND transactions.group_id = ? AND date BETWEEN ? AND ?";
         return jdbcTemplate.query(sql, new TransactionMapper(), getCurrentUserGroupId(), startDate, endDate);
     }
@@ -52,7 +53,7 @@ public class TransactionRepository {
                 getCurrentUserGroupId());
     }
 
-    public int delete(int id) throws Exception {
+    public int delete(Integer id) throws Exception {
         String sql = "DELETE FROM transactions WHERE id = ? AND group_id = ?";
         return jdbcTemplate.update(sql, id, getCurrentUserGroupId());
     }
