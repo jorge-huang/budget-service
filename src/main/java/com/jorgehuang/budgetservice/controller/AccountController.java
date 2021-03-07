@@ -17,8 +17,12 @@ public class AccountController {
 
     @GetMapping("/accounts")
     @ResponseBody
-    public List<Account> getAccounts() {
-        return accountService.getAll();
+    public Object getAccounts() {
+        List<Account> accounts = accountService.getAll();
+        if (accounts == null) {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return accounts;
     }
 
     @GetMapping("/accounts/{id}")
@@ -37,10 +41,11 @@ public class AccountController {
         Account account = new Account();
         account.setName(name);
         account.setType(type);
-        if (accountService.create(account) < 1) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        if (accountService.create(account) > 0) {
+            return new ResponseEntity(HttpStatus.CREATED);
         }
-        return new ResponseEntity(HttpStatus.CREATED);
+
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("/accounts/{id}")

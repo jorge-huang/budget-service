@@ -32,6 +32,13 @@ public class AccountControllerTest {
 
     @Test
     @WithMockUser()
+    public void getAccountsShouldReturnStatus500() throws Exception {
+        when(accountService.getAll()).thenReturn(null);
+        mockMvc.perform(get("/accounts")).andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithMockUser()
     public void getAccountByIdShouldReturnAccount() throws Exception {
         when(accountService.getById(anyInt())).thenReturn(new Account());
         mockMvc.perform(get("/accounts/1")).andExpect(status().isOk());
