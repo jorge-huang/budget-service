@@ -32,7 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/accounts", true)
+                .and()
+                .logout()
+                .deleteCookies("JSESSIONID");
 
         if (environment.acceptsProfiles(Profiles.of("dev"))) {
             configureForDevProfile(http);
